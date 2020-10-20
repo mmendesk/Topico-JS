@@ -1,6 +1,6 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { hashSync } from 'bcrypt';
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { ObjectType, Field, ID, HideField } from '@nestjs/graphql';
+import { hashPasswordTransform } from 'src/common/transformers/crypto-transform';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -15,16 +15,9 @@ export class User {
   @Column()
   email: string;
 
-  @Column()
-  password?: string;
-
-  @BeforeInsert()
-  private criptPasswordCreate(): void {
-    this.password = hashSync(this.password, 10);
-  }
-
-  @BeforeUpdate()
-  private criptPasswordUpdate(): void {
-    this.password = hashSync(this.password, 10);
-  }
+  @Column({
+    transformer: hashPasswordTransform
+  })
+  @HideField()
+  password: string;
 }
