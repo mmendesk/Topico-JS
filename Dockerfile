@@ -2,7 +2,8 @@ FROM node:14 As development
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json .
+COPY package-lock.json .
 
 RUN npm install --only=development
 
