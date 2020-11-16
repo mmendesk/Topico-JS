@@ -4,9 +4,21 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
 import { User } from './user.entity';
+import { NestjsQueryGraphQLModule } from '@nestjs-query/query-graphql'
+import { NestjsQueryTypeOrmModule } from '@nestjs-query/query-typeorm'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
-  providers: [UserService, UserResolver],
+  imports: [
+    NestjsQueryGraphQLModule.forFeature({
+      imports: [NestjsQueryTypeOrmModule.forFeature([User])],
+      resolvers: [
+        {
+          EntityClass: User,
+          DTOClass: User,
+        }
+      ]
+    })
+  ],
+  providers: []
 })
-export class UserModule {}
+export class UserModule { }

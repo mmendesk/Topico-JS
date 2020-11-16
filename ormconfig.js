@@ -1,10 +1,20 @@
 module.exports = {
-  type: 'postgres',
-  host: process.env.DB_HOST,
-  port: +process.env.DB_PORT || 5432,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  entities: ['dist/**/*.entity{.ts,.js}'],
-  synchronize: process.env.DB_SYNC == 'true',
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "angelo_yt2",
+  "password": "docker",
+  "database": "db_nestjs_query",
+  "entities": [
+    "src/models/**/*.ts"
+  ],
+  "migrations": [
+    "src/database/migrations/**/*.ts"
+  ],
+  "cli": {
+    "migrationsDir": [
+      "src/database/migrations/"
+    ],
+    "entitiesDir": "src/models"
+  }
 };
